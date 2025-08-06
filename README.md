@@ -15,14 +15,14 @@ Watches your `src/` directory and automatically triggers a full browser reload v
 
 In src/index.ts, import and apply the middleware:
 
-`
+```
 import { Hono } from "hono";
-import { htmlLiveReload } from "../live-reload";
+import { htmlLiveReload } from "../browser-live-reload";
 
 const app = new Hono();
 
 app.get("/", (c) => {
-return c.html(`  
+return c.html(`
     <!DOCTYPE html>
     <html>
       <head>
@@ -35,7 +35,7 @@ return c.html(`
 });
 
 export default htmlLiveReload(app.fetch);
-`
+```
 
 ## 🔍 How It Works
 
@@ -45,12 +45,12 @@ export default htmlLiveReload(app.fetch);
    The middleware serves GET /\_\_live_reload as a Server-Sent Events (SSE) stream. The controller is saved to globalThis.client.
 3. Client script injection
    Every HTML response gets a <script> injected before </body>:
-   `
+   ```
    <script>
         new EventSource("/__live_reload")
           .onmessage = () => location.reload();
    </script>
-   `
+   ```
 4. Triggering reload
    When the file watcher detects a change, it sends an SSE message:
    `globalThis.client?.enqueue("data: update\n\n");`
@@ -58,7 +58,7 @@ export default htmlLiveReload(app.fetch);
 ## ⚙️ Configuration
 
 - Watch directory
-  By default, it watches process.cwd()/src. To change the directory, modify this line in live-reload.ts:
+  By default, it watches /src folder. To change the directory, modify this line in browser-live-reload.ts:
   `const srcDir = join(process.cwd(), "src");`
 - Endpoint path
   Default SSE path is /\_\_live_reload. You can change this by editing:

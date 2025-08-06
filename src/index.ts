@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { htmlLiveReload } from "../browser-hot-reload";
+import { htmlLiveReload } from "../browser-live-reload";
 
 const app = new Hono();
 
